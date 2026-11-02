@@ -11,6 +11,9 @@ release.keystore
 *.keystore
 *.jks
 
+# Gradle wrapper jar, наоборот, коммитится — без него ./gradlew не запускается
+!gradle/wrapper/gradle-wrapper.jar
+
 # IDE
 .idea/
 *.iml
