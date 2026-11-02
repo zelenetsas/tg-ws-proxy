@@ -53,10 +53,26 @@ fun StatusCard(
             )
 
             if (state is ProxyState.Running) {
+                val server = state.link
+                    .substringAfter("server=", "")
+                    .substringBefore("&")
+                val port = state.link
+                    .substringAfter("port=", "")
+                    .substringBefore("&")
+                val isLan = server.isNotEmpty() &&
+                    server != "127.0.0.1" && server != "localhost" && server != "::1"
+
                 Text(
                     state.link,
                     style = MaterialTheme.typography.bodySmall.copy(fontFamily = FontFamily.Monospace),
                 )
+                if (isLan) {
+                    Text(
+                        stringResource(R.string.lan_address_label) + ": $server:$port",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                    )
+                }
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     Button(onClick = { onOpenTelegram(state.link) }) {
                         Text(stringResource(R.string.btn_open_telegram))
@@ -65,19 +81,20 @@ fun StatusCard(
                         Text(stringResource(R.string.btn_copy_link))
                     }
                 }
-                val hint = stringResource(R.string.hint_first_run)
-                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                    OutlinedButton(onClick = { onShare(state.link) }) {
-                        Text(stringResource(R.string.btn_share_link))
+                // Ссылка/QR полезны другим устройствам только в LAN-режиме (host 0.0.0.0):
+                // при 127.0.0.1 их localhost ничего не слушает.
+                if (isLan) {
+                    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        OutlinedButton(onClick = { onShare(state.link) }) {
+                            Text(stringResource(R.string.btn_share_link))
+                        }
                     }
-                    OutlinedButton(
-                        onClick = { onShare(hint) },
-                    ) {
-                        Text(stringResource(R.string.action_open))
-                    }
+                    Text(
+                        stringResource(R.string.lan_hint),
+                        style = MaterialTheme.typography.bodySmall,
+                    )
+                    QrCodeCard(link = state.link, onClick = { onShare(state.link) })
                 }
-                // QR-код ссылки — навести камеру Telegram на другом устройстве
-                QrCodeCard(link = state.link, onClick = { onShare(state.link) })
             }
 
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {

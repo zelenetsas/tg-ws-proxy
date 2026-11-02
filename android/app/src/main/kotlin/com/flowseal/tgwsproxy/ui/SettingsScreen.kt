@@ -56,6 +56,10 @@ fun SettingsScreen() {
             label = { Text(stringResource(R.string.settings_host)) },
             modifier = Modifier.fillMaxWidth(),
         )
+        Text(
+            stringResource(R.string.host_hint),
+            style = MaterialTheme.typography.bodySmall,
+        )
         OutlinedTextField(
             value = cfg.port.toString(),
             onValueChange = { cfg = cfg.copy(port = it.toIntOrNull() ?: 0); saved = false },

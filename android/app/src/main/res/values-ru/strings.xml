@@ -61,8 +61,11 @@
     <string name="update_dialog_text">Версия %1$s доступна (у вас %2$s). Открыть страницу релиза?</string>
     <string name="update_open">Открыть</string>
     <string name="update_later">Позже</string>
-    <string name="qr_hint">Наведите камеру Telegram на QR-код, чтобы подключить прокси на другом устройстве</string>
+    <string name="qr_hint">Отсканируйте другим устройством в той же Wi-Fi сети или точке доступа</string>
     <string name="qr_content_desc">QR-код для подключения прокси</string>
+    <string name="lan_address_label">Адрес в сети</string>
+    <string name="lan_hint">Подключите устройство к той же Wi-Fi сети или к точке доступа телефона, затем откройте ссылку или отсканируйте QR. При включённой точке доступа телефон обычно имеет адрес 192.168.43.1.</string>
+    <string name="host_hint">127.0.0.1 — прокси только на этом телефоне. 0.0.0.0 — доступ с других устройств в той же сети/точке доступа (ссылка и QR становятся рабочими). Внимание: в режиме 0.0.0.0 прокси доступен всем устройствам локальной сети.</string>
     <string name="tab_reliability">Фон</string>
     <string name="rel_battery_title">Экономия батареи</string>
     <string name="rel_battery_ok">Исключение включено — система не ограничивает приложение</string>

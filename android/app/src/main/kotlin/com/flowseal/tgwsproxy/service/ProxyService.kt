@@ -205,7 +205,15 @@ class ProxyService : Service() {
         networkMonitor = NetworkMonitor(
             context = applicationContext,
             scope = serviceScope,
-            onChanged = { server?.onNetworkChanged() },
+            onChanged = {
+                server?.onNetworkChanged()
+                // LAN-адрес может смениться (Wi-Fi <-> точка доступа) —
+                // пересобираем ссылку, чтобы QR/кнопки вели на текущий IP.
+                val srv = server
+                if (srv != null && _state.value is ProxyState.Running) {
+                    _state.value = ProxyState.Running(srv.buildLink())
+                }
+            },
         ).also { it.register() }
     }
 
