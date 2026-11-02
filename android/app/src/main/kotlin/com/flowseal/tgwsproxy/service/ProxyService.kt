@@ -59,6 +59,7 @@ class ProxyService : Service() {
 
     private val serviceScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
     private var server: ProxyServer? = null
+    private var networkMonitor: NetworkMonitor? = null
     private lateinit var configStore: ConfigStore
 
     private var wakeLock: PowerManager.WakeLock? = null
@@ -140,6 +141,8 @@ class ProxyService : Service() {
             }
         }
         instance = null
+        networkMonitor?.unregister()
+        networkMonitor = null
         releaseLocks()
         serviceScope.cancel()
         super.onDestroy()
@@ -163,6 +166,7 @@ class ProxyService : Service() {
                 onSuccess = {
                     _state.value = ProxyState.Running(srv.buildLink())
                     acquireLocks()
+                    registerNetworkMonitor()
                     ProxyRestart.cancel(this@ProxyService)
                 },
                 onFailure = { e ->
@@ -175,6 +179,8 @@ class ProxyService : Service() {
 
     private fun stopProxy() {
         serviceScope.launch {
+            networkMonitor?.unregister()
+            networkMonitor = null
             server?.stop()
             server = null
             _state.value = ProxyState.Stopped
@@ -189,6 +195,20 @@ class ProxyService : Service() {
      * экране, WifiLock не даёт Wi-Fi радиомодулю переходить в экономичный режим.
      * Оба отпускаются при остановке, поэтому батарею «в стол» не жгут.
      */
+    /**
+     * Монитор смены сети: Wi-Fi <-> mobile сбрасывает WS-пулы, и без реакции
+     * приложение «залипает» на мёртвых соединениях (главная мобильная боль
+     * по данным анализа конкурентов).
+     */
+    private fun registerNetworkMonitor() {
+        networkMonitor?.unregister()
+        networkMonitor = NetworkMonitor(
+            context = applicationContext,
+            scope = serviceScope,
+            onChanged = { server?.onNetworkChanged() },
+        ).also { it.register() }
+    }
+
     private fun acquireLocks() {
         if (wakeLock == null) {
             val pm = getSystemService(Context.POWER_SERVICE) as PowerManager

@@ -10,6 +10,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Checkbox
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -27,6 +28,7 @@ import com.flowseal.tgwsproxy.config.ConfigStore
 import com.flowseal.tgwsproxy.config.ValidationResult
 import com.flowseal.tgwsproxy.config.validateSettings
 import com.flowseal.tgwsproxy.log.Log
+import com.flowseal.tgwsproxy.proxy.DcPresets
 import java.io.File
 
 /**
@@ -73,6 +75,31 @@ fun SettingsScreen() {
             },
             label = { Text(stringResource(R.string.settings_dc_ip)) },
             modifier = Modifier.fillMaxWidth().height(120.dp),
+        )
+        // Пресеты DC: топ-жалоба оригинала — «не грузится медиа» из DC 1/3/5.
+        // Пустой список = всё через цепочку CF-фолбэков, работает для любых DC.
+        val preset = DcPresets.presetFor(cfg.dcIp)
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            FilterChip(
+                selected = preset == DcPresets.DEFAULT,
+                onClick = {
+                    cfg = cfg.copy(dcIp = DcPresets.DEFAULT_LINES.toMutableList())
+                    saved = false
+                },
+                label = { Text(stringResource(R.string.dc_preset_default)) },
+            )
+            FilterChip(
+                selected = preset == DcPresets.ALL_VIA_CF,
+                onClick = {
+                    cfg = cfg.copy(dcIp = DcPresets.ALL_VIA_CF_LINES.toMutableList())
+                    saved = false
+                },
+                label = { Text(stringResource(R.string.dc_preset_all_cf)) },
+            )
+        }
+        Text(
+            stringResource(R.string.dc_media_hint),
+            style = MaterialTheme.typography.bodySmall,
         )
         OutlinedTextField(
             value = cfg.bufKb.toString(),

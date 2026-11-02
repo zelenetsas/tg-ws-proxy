@@ -14,8 +14,8 @@ android {
         applicationId = "com.flowseal.tgwsproxy"
         minSdk = 26
         targetSdk = 35
-        versionCode = 11_104
-        versionName = "1.11.4"
+        versionCode = 11_200
+        versionName = "1.12.0"
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
@@ -56,6 +56,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
 
     packaging {
@@ -84,6 +85,7 @@ dependencies {
     implementation("androidx.datastore:datastore-preferences:1.1.1")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.1")
     implementation("com.squareup.okhttp3:okhttp:4.12.0")
+    implementation("io.github.g0dkar:qrcode-kotlin-android:4.1.1")
 
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-tooling-preview")

@@ -57,10 +57,16 @@
     <string name="logs_empty">Лог пуст</string>
     <string name="logs_share">Поделиться логом</string>
     <string name="logs_clear">Очистить</string>
+    <string name="logs_report">Собрать отчёт (для бага)</string>
+    <string name="dc_preset_default">DC2/DC4 (стандарт)</string>
+    <string name="dc_preset_all_cf">Всё через CF (медиа)</string>
+    <string name="dc_media_hint">Не грузятся фото/видео? Выберите «Всё через CF» — прокси будет использовать Cloudflare-фолбэк для всех датацентров Telegram.</string>
     <string name="update_dialog_title">Доступно обновление</string>
     <string name="update_dialog_text">Версия %1$s доступна (у вас %2$s). Открыть страницу релиза?</string>
     <string name="update_open">Открыть</string>
     <string name="update_later">Позже</string>
+    <string name="qr_hint">Наведите камеру Telegram на QR-код, чтобы подключить прокси на другом устройстве</string>
+    <string name="qr_content_desc">QR-код для подключения прокси</string>
     <string name="tab_reliability">Фон</string>
     <string name="rel_battery_title">Экономия батареи</string>
     <string name="rel_battery_ok">Исключение включено — система не ограничивает приложение</string>

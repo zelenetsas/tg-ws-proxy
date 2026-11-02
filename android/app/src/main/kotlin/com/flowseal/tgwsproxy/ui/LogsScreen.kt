@@ -24,6 +24,7 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.flowseal.tgwsproxy.R
+import com.flowseal.tgwsproxy.log.Log
 import com.flowseal.tgwsproxy.log.LogFile
 import java.io.File
 import kotlinx.coroutines.delay
@@ -66,6 +67,20 @@ fun LogsScreen() {
                 text = ""
             }) {
                 Text(stringResource(R.string.logs_clear))
+            }
+        }
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            OutlinedButton(
+                onClick = {
+                    try {
+                        com.flowseal.tgwsproxy.log.BugReport.createAndShare(context)
+                    } catch (e: Exception) {
+                        Log.error("Bug report failed", e)
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(stringResource(R.string.logs_report))
             }
         }
 

@@ -42,6 +42,8 @@ Telegram → MTProto Proxy (127.0.0.1:1443) → WebSocket/TLS → Telegram DC
 - Foreground Service + уведомление + Quick Settings Tile
 - Устойчивость к Xiaomi/HyperOS: WakeLock, watchdog-рестарт, BootReceiver,
   keepalive-пинги (см. [`android/README.md`](./android/README.md))
+- QR-код подключения, «Собрать отчёт» для багрепортов, авто-реакция на смену
+  сети, пресеты DC («Всё через CF» — фикс негрузящихся медиа)
 - Кросс-тесты с Python-эталоном: 13/13 юнит-тестов на эталонных векторах
 
 ### Сборка Android

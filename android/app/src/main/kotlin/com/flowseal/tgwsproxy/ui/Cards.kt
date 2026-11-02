@@ -76,6 +76,8 @@ fun StatusCard(
                         Text(stringResource(R.string.action_open))
                     }
                 }
+                // QR-код ссылки — навести камеру Telegram на другом устройстве
+                QrCodeCard(link = state.link, onClick = { onShare(state.link) })
             }
 
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {

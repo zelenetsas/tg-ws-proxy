@@ -119,6 +119,21 @@ class ProxyServer(
         Log.info("Proxy stopped. Final stats: ${Stats.snapshot().summary()}")
     }
 
+    /**
+     * Реакция на смену сети (Wi-Fi <-> mobile): пулы и backoff привязаны к
+     * прежнему маршруту — сбрасываем и прогреваем заново, не трогая активные
+     * клиентские мосты (они дотекут до фолбэков сами).
+     */
+    suspend fun onNetworkChanged() {
+        if (stopping.get()) return
+        Log.info("Network changed: resetting pools and TCP backoff")
+        wsPool.reset()
+        cfWorkerPool.reset()
+        Bridge.resetTcpBackoff()
+        wsPool.warmup()
+        cfWorkerPool.warmup()
+    }
+
     /** Ссылка tg://proxy для текущей конфигурации. */
     fun buildLink(fakeTlsDomain: String? = null): String =
         if (fakeTlsDomain.isNullOrEmpty()) {
