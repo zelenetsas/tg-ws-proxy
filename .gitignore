@@ -19,6 +19,21 @@ venv/
 *.swp
 *.swo
 
+# Python test caches
+.pytest_cache/
+
+# Android / Gradle (см. также android/.gitignore)
+.gradle/
+android/build/
+android/app/build/
+android/local.properties
+*.apk
+*.aab
+
+# Ключи подписи — НИКОГДА не коммитить!
+*.keystore
+*.jks
+
 # OS
 Thumbs.db
 Desktop.ini

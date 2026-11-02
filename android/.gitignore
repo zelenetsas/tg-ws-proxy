@@ -1,0 +1,17 @@
+# Gradle
+.gradle/
+build/
+*/build/
+
+# Локальная конфигурация SDK (путь до Android SDK на машине)
+local.properties
+
+# Подпись релиза — НЕ коммитить! Хранить отдельно, сделать резервную копию.
+release.keystore
+*.keystore
+*.jks
+
+# IDE
+.idea/
+*.iml
+.DS_Store
